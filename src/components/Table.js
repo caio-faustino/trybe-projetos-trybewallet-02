@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateExpense, editExpense } from '../redux/actions/acoesWallet';
+import { atualizaDespesas, edtDespesas } from '../redux/actions/acoesWallet';
 
 class Table extends Component {
   handleDelete = (id) => {
     const { expenses, dispatch } = this.props;
     const delExpense = expenses.filter((expense) => expense.id !== id);
-    dispatch(updateExpense(delExpense));
+    dispatch(atualizaDespesas(delExpense));
   };
 
   render() {
@@ -63,7 +63,7 @@ class Table extends Component {
                       Excluir
                     </button>
                     <button
-                      onClick={ () => dispatch(editExpense(id, true)) }
+                      onClick={ () => dispatch(edtDespesas(id, true)) }
                       data-testid="edit-btn"
                       type="button"
                     >

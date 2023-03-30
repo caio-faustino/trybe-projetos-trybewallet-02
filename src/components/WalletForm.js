@@ -1,70 +1,71 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  addExpense,
-  editExpense,
-  fetchCurrenciesToGlobal,
-  updateExpense,
-} from '../redux/actions/acoesWallet';
 import { fetchCurrencies } from '../redux/acessoAPI';
+import {
+  accDespesa, edtDespesas,
+  accDespesaNoTotal, atualizaDespesas } from '../redux/actions/acoesWallet';
+
 
 class WalletForm extends Component {
   state = {
+
+    tag: 'Alimentação',
+    description: '',
+    exchangeRates: [],
     id: 0,
     value: 0,
     currency: 'USD',
     method: 'Dinheiro',
-    tag: 'Alimentação',
-    description: '',
-    exchangeRates: [],
+
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchCurrenciesToGlobal());
+    dispatch(accDespesaNoTotal());
   }
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleAddExpense = async () => {
-    const { dispatch } = this.props;
-    this.setState({
-      exchangeRates: await fetchCurrencies(),
-    }, () => {
-      dispatch(addExpense(this.state));
-      this.setState((prevState) => ({
-        id: prevState.id + 1,
-        value: '',
-        currency: 'USD',
-        method: 'Dinheiro',
-        tag: 'Alimentação',
-        description: '',
-        exchangeRates: {},
-      }));
-    });
-  };
-
-  handleEditExpense = async () => {
+  handleedtDespesas = async () => {
     const { dispatch, expenses, idToEdit } = this.props;
-    const editedExpense = {
+    const despesasEditadas = {
       ...this.state,
       id: idToEdit,
       exchangeRates: await fetchCurrencies(),
     };
-    const indexOfEditingExpense = expenses.findIndex((obj) => obj.id === idToEdit);
-    const cpExpenses = [...expenses];
+    const indexDespEditadas = expenses.findIndex((obj) => obj.id === idToEdit);
+    const despesasCP = [...expenses];
 
-    cpExpenses[indexOfEditingExpense] = editedExpense;
-    dispatch(updateExpense(cpExpenses));
-    dispatch(editExpense(0, false));
+    despesasCP[indexDespEditadas] = despesasEditadas;
+    dispatch(atualizaDespesas(despesasCP));
+    dispatch(edtDespesas(0, false));
   };
+
+  handleaccDespesa = async () => {
+    const { dispatch } = this.props;
+    this.setState({
+      exchangeRates: await fetchCurrencies(),
+    }, () => {
+      dispatch(accDespesa(this.state));
+      this.setState((prevState) => ({
+        method: 'Dinheiro',
+        tag: 'Alimentação',
+        description: '',
+        exchangeRates: {},
+        id: prevState.id + 1,
+        value: '',
+        currency: 'USD',
+  
+      }));
+    });
+  };
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({[name]: value})
+  };
+
+
 
   render() {
     const { value, currency, method, tag, description } = this.state;
@@ -148,14 +149,14 @@ class WalletForm extends Component {
           !editor ? (
             <button
               type="submit"
-              onClick={ this.handleAddExpense }
+              onClick={ this.handleaccDespesa }
             >
               Adicionar despesa
             </button>
           ) : (
             <button
               type="submit"
-              onClick={ this.handleEditExpense }
+              onClick={ this.handleedtDespesas }
             >
               Editar despesa
             </button>

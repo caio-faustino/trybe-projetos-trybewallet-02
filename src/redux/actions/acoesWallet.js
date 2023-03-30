@@ -1,44 +1,50 @@
 import { fetchCurrencies } from '../acessoAPI';
 
-export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
-export const ADD_EXPENSE = 'ADD_EXPENSE';
+
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
+export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
+export const ADD_EXPENSE = 'ADD_EXPENSE';
 
-function requestCurrencies(currencies) {
-  return {
-    type: REQUEST_CURRENCIES,
-    amount: currencies,
-  };
-}
 
-export function addExpense(expense) {
+
+export function accDespesa(expense) {
   return {
     type: ADD_EXPENSE,
     amount: expense,
   };
 }
 
-export function updateExpense(expenses) {
+function requisitaMoeda(moedas) {
+  return {
+    type: REQUEST_CURRENCIES,
+    amount: moedas,
+  };
+}
+
+
+
+export function atualizaDespesas(expenses) {
   return {
     type: UPDATE_EXPENSE,
     amount: expenses,
   };
 }
 
-export function editExpense(id, isEditing) {
-  return {
-    type: EDIT_EXPENSE,
-    id,
-    isEditing,
+export function accDespesaNoTotal() {
+  return async (dispatch) => {
+    const currenciesData = await fetchCurrencies();
+    const currenciesSet = new Set(Object.keys(currenciesData));
+    currenciesSet.delete('USDT');
+    return dispatch(requisitaMoeda([...currenciesSet]));
   };
 }
 
-export function fetchCurrenciesToGlobal() {
-  return async (dispatch) => {
-    const data = await fetchCurrencies();
-    const tempSet = new Set(Object.keys(data));
-    tempSet.delete('USDT');
-    return dispatch(requestCurrencies([...tempSet]));
+
+
+export function edtDespesas(id, isEditing) {
+  return {
+    type: EDIT_EXPENSE, id, isEditing,
   };
 }
+

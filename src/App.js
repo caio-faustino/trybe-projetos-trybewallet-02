@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
 import Wallet from './pages/Wallet';
+import Login from './pages/Login';
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
-      <main>
+      <section>
         <Switch>
-          <Route path="/carteira" render={ (props) => <Wallet { ...props } /> } />
           <Route exact path="/" render={ (props) => <Login { ...props } /> } />
+          <Route path="/carteira" render={ (props) => <Wallet { ...props } /> } />
         </Switch>
-      </main>
+      </section>
     );
   }
 }
-
-export default App;

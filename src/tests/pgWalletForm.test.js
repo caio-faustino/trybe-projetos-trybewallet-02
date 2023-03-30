@@ -1,24 +1,28 @@
+// Requisito
+
+// // 05
+
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { renderWithRedux } from './helpers/renderWith';
 import WalletForm from '../components/WalletForm';
 
-describe('Testando o componente Wallet <Wallet />', () => {
-  test('Testar se a página contém os inputs e o button', () => {
+describe('Testes do requisito 05', () => {
+  test('Testa imputs de botao', () => {
     renderWithRedux(<WalletForm />);
 
-    const inputValue = screen.getByTestId('value-input');
-    const inputCurrency = screen.getByTestId('currency-input');
-    const inputMethod = screen.getByTestId('method-input');
-    const inputTag = screen.getByTestId('tag-input');
-    const inputDescription = screen.getByTestId('description-input');
-    const addExpenseButton = screen.getByRole('button');
+    const tagImput = screen.getByTestId('tag-input');
+    const descImput = screen.getByTestId('description-input');
+    const accDespesasBtn = screen.getByRole('button');
+    const valorImput = screen.getByTestId('value-input');
+    const moedaImput = screen.getByTestId('currency-input');
+    const metodoimput = screen.getByTestId('method-input');
 
-    expect(inputValue).toBeInTheDocument();
-    expect(inputCurrency).toBeInTheDocument();
-    expect(inputMethod).toBeInTheDocument();
-    expect(inputTag).toBeInTheDocument();
-    expect(inputDescription).toBeInTheDocument();
-    expect(addExpenseButton).toBeInTheDocument();
+    expect(tagImput).toBeInTheDocument();
+    expect(descImput).toBeInTheDocument();
+    expect(accDespesasBtn).toBeInTheDocument();
+    expect(valorImput).toBeInTheDocument();
+    expect(moedaImput).toBeInTheDocument();
+    expect(metodoimput).toBeInTheDocument();
   });
 });

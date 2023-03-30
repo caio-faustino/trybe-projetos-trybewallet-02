@@ -3,14 +3,14 @@ import { screen } from '@testing-library/react';
 import { renderWithRedux } from './helpers/renderWith';
 import Header from '../components/Header';
 
-describe('Testando o componente Header <Header />', () => {
-  test('Testar se o componente possui um campo email e outro Despesa total', () => {
+describe('Testes do requisito 05', () => {
+  test('Testa se o cabecalho tem email e valor total', () => {
     renderWithRedux(<Header />);
 
-    const emailField = screen.getByText(/email/i);
-    const totalExpenseField = screen.getByText(/despesa total/i);
+    const campoTotal = screen.getByText(/despesa total/i);
+    const campoEmail = screen.getByText(/email/i);
 
-    expect(emailField).toBeInTheDocument();
-    expect(totalExpenseField).toBeInTheDocument();
+    expect(campoTotal).toBeInTheDocument();
+    expect(campoEmail).toBeInTheDocument();
   });
 });
